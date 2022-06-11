@@ -15,6 +15,8 @@ Na raiz do projeto execute os seguintes comandos:
 ```bash
 # Instalando dependências
 $ npm install 
+# Compilando os projetos
+$ npx hardhat compile
 # Rodando o projetos
 $ npx hardhat start
 # Rodando script de testes
