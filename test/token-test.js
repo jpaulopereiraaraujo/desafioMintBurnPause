@@ -17,22 +17,18 @@ describe("token", async () => {
            
         });
 
-        const tokenTest = await token.deploy(1000);
+        const tokenTest = await token.deploy();
 
         await tokenTest.deployed();
 
-        console.log(wallet1.address, ' wallet 1');
-        console.log(owner.address, ' owner');
-
-
-        const totalSupplyExpected = 1000;
+        const totalSupplyExpected = 100;
 
         const totalSupplyResult = await tokenTest.totalSupply();
 
         expect(totalSupplyExpected).to.equal(totalSupplyResult)
 
         //Teste do balance do owner
-        const balanceExpected = 1000;
+        const balanceExpected = 100;
         const balanceResult = await tokenTest.balanceOf(owner.address)
 
         expect(balanceExpected).to.equal(balanceResult)
@@ -47,16 +43,13 @@ describe("token", async () => {
             signer: owner
         });
 
-        const tokenTest = await token.deploy(1000);
+        const tokenTest = await token.deploy();
 
         await tokenTest.deployed();
 
-        console.log(wallet1.address, ' wallet 1');
-        console.log(owner.address, ' owner');
-
-        const transferValue = 400;
-        const balanceWallet1Expected = 400;
-        const balanceOwnerExpected = 600;
+        const transferValue = 40;
+        const balanceWallet1Expected = 40;
+        const balanceOwnerExpected = 60;
 
 
         //Testando a função transfer
@@ -74,8 +67,6 @@ describe("token", async () => {
 
         expect(balanceWallet1Expected).to.equal(bWallet1);
 
-        console.log(bWallet1);
-        console.log(bOwner);
 
     });
 
@@ -87,14 +78,11 @@ describe("token", async () => {
             signer: owner
         });
 
-        const tokenTest = await token.deploy(100);
+        const tokenTest = await token.deploy();
 
         await tokenTest.deployed();
 
-        console.log(wallet1.address, ' wallet 1');
-        console.log(owner.address, ' owner');
-
-        const transferValue = 400;
+        const transferValue = 200;
         const test=1;
         const pass = 1;
         const fail = 0;
@@ -106,7 +94,7 @@ describe("token", async () => {
         } else {
             expect(fail).to.equal(test);
         };
-        console.log(bOwner);
+    
 
     });
     
@@ -118,16 +106,13 @@ describe("token", async () => {
             signer: owner
         });
 
-        const tokenTest = await token.deploy(1000);
+        const tokenTest = await token.deploy();
 
         await tokenTest.deployed();
 
-        console.log(wallet1.address, ' wallet 1');
-        console.log(owner.address, ' owner');
-
-        const transferValue = 400;
-        const balanceWallet1Expected = 200;
-        const balanceOwnerExpected = 300;
+        const transferValue = 40;
+        const balanceWallet1Expected = 20;
+        const balanceOwnerExpected = 30;
 
 
         await tokenTest.transfer(wallet1.address, transferValue);
@@ -155,12 +140,9 @@ describe("token", async () => {
             signer: owner
         });
 
-        const tokenTest = await token.deploy(1000);
+        const tokenTest = await token.deploy();
 
         await tokenTest.deployed();
-
-        console.log(wallet1.address, ' wallet 1');
-        console.log(owner.address, ' owner');
 
         await tokenTest.activeContract();
         expect(await tokenTest.state()).to.equal(0);
@@ -173,6 +155,52 @@ describe("token", async () => {
         
 
         
+    });
+
+    it("Mint test A", async function () {
+        const [owner, wallet1] = await ethers.getSigners();
+
+        const token = await ethers.getContractFactory("CryptoToken", {
+            libraries: { "Math": libTest.address },
+            signer: owner
+        });
+
+        const tokenTest = await token.deploy();
+
+        await tokenTest.deployed();
+
+
+        await tokenTest.transfer(wallet1.address, 70);
+
+        await tokenTest.mintToken();
+
+        expect(await tokenTest.totalSupply()).to.equal(150);
+        expect(await tokenTest.balanceOf(owner.address)).to.equal(80);
+        expect(await tokenTest.balanceOf(wallet1.address)).to.equal(70);
+
+    });
+
+    it("Mint test B", async function () {
+        const [owner, wallet1] = await ethers.getSigners();
+
+        const token = await ethers.getContractFactory("CryptoToken", {
+            libraries: { "Math": libTest.address },
+            signer: owner
+        });
+
+        const tokenTest = await token.deploy();
+
+        await tokenTest.deployed();
+
+
+        await tokenTest.transfer(wallet1.address, 49);
+
+        await tokenTest.mintToken();
+
+        expect(await tokenTest.totalSupply()).to.equal(100);
+        expect(await tokenTest.balanceOf(owner.address)).to.equal(51);
+        expect(await tokenTest.balanceOf(wallet1.address)).to.equal(49);
+
     });
 
 
