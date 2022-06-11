@@ -3,10 +3,19 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
 describe("token", async () => {
+    let libTest; 
+    before ( async ()=>{
+        const lib = await ethers.getContractFactory("Math");
+        libTest = await lib.deploy();
+    })
     it("Totalsupply and Owner Balance test", async function () {
         const [owner, wallet1] = await ethers.getSigners();
-
-        const token = await ethers.getContractFactory("CryptoToken", owner);
+       
+        const token = await ethers.getContractFactory("CryptoToken",{
+            libraries:{"Math":libTest.address},
+            signer: owner
+           
+        });
 
         const tokenTest = await token.deploy(1000);
 
@@ -33,7 +42,10 @@ describe("token", async () => {
     it("Transfer test", async function () {
         const [owner, wallet1] = await ethers.getSigners();
 
-        const token = await ethers.getContractFactory("CryptoToken", owner);
+        const token = await ethers.getContractFactory("CryptoToken",{
+            libraries:{"Math":libTest.address},
+            signer: owner
+        });
 
         const tokenTest = await token.deploy(1000);
 
@@ -70,7 +82,10 @@ describe("token", async () => {
     it("Transfer Failtest", async function () {
         const [owner, wallet1] = await ethers.getSigners();
 
-        const token = await ethers.getContractFactory("CryptoToken", owner);
+        const token = await ethers.getContractFactory("CryptoToken",{
+            libraries:{"Math":libTest.address},
+            signer: owner
+        });
 
         const tokenTest = await token.deploy(100);
 
@@ -93,6 +108,71 @@ describe("token", async () => {
         };
         console.log(bOwner);
 
+    });
+    
+    it("Burn Test", async function () {
+        const [owner, wallet1] = await ethers.getSigners();
+
+        const token = await ethers.getContractFactory("CryptoToken",{
+            libraries:{"Math":libTest.address},
+            signer: owner
+        });
+
+        const tokenTest = await token.deploy(1000);
+
+        await tokenTest.deployed();
+
+        console.log(wallet1.address, ' wallet 1');
+        console.log(owner.address, ' owner');
+
+        const transferValue = 400;
+        const balanceWallet1Expected = 200;
+        const balanceOwnerExpected = 300;
+
+
+        await tokenTest.transfer(wallet1.address, transferValue);
+
+        await tokenTest.burn(50);
+        
+        const bWallet1 = await tokenTest.balanceOf(wallet1.address);
+
+        const bOwner = await tokenTest.balanceOf(owner.address);
+        
+        //Testando se os tokens saíram
+
+        expect(balanceOwnerExpected).to.equal(bOwner);
+
+        //Testando se os tokens chegaram
+
+        expect(balanceWallet1Expected).to.equal(bWallet1);
+    });
+
+    it("Status test", async function () {
+        const [owner, wallet1] = await ethers.getSigners();
+
+        const token = await ethers.getContractFactory("CryptoToken",{
+            libraries:{"Math":libTest.address},
+            signer: owner
+        });
+
+        const tokenTest = await token.deploy(1000);
+
+        await tokenTest.deployed();
+
+        console.log(wallet1.address, ' wallet 1');
+        console.log(owner.address, ' owner');
+
+        await tokenTest.activeContract();
+        expect(await tokenTest.state()).to.equal(0);
+
+        await tokenTest.pauseContract();
+        expect(await tokenTest.state()).to.equal(1);
+
+        await tokenTest.cancelContract();
+        expect(await tokenTest.state()).to.equal(2);
+        
+
+        
     });
 
 
