@@ -1,18 +1,37 @@
-# Basic Sample Hardhat Project
+# Projeto Hardhat - CriptoDev
+Este projeto demonstra um caso de uso básico do Hardhat. Ele vem com um contrato de amostra, um teste para esse contrato, um script de amostra que implanta esse contrato e um exemplo de implementação de tarefa, que simplesmente lista as contas disponíveis.
+Instruções do desafio [link](https://github.com/jcbombardelli/cryptodev-blockchain-05-2022/tree/main/dia-20)
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+## Como Rodar
 
-Try running some of the following tasks:
+### Pré-requisitos
+- [Hardhat](https://hardhat.org/) (v2 ou superior)
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+### Rodando o projeto
 
+Na raiz do projeto execute os seguintes comandos:
+
+```bash
+# Instalando dependências
+$ npm install 
+# Rodando o projetos
+$ npx hardhat start
+# Rodando script de testes
+$ npx hardhat test
 ```
-Project Reference
-https://gist.github.com/jcbombardelli/cc43b4641cba21f6d87ad8c0abbf285b
+
+## Projetos relevantes utilizados
+
+- Hardhat
+- Chai
+- Mocha
+- Ethereum Waffle
+- Ethers
+
+## Desenvolvedores
+
+Eduardo Hoths [LinkedIn](https://github.com/eduardohoths)
+
+João Paulo [Github](https://github.com/jpaulopereiraaraujo)
+
+Kaio Machado [Github](https://github.com/kaiobmachado)
