@@ -31,7 +31,7 @@ $ npx hardhat test
 
 ## Desenvolvedores
 
-Eduardo Hoths [LinkedIn](https://github.com/eduardohoths)
+Eduardo Hoths [Github](https://github.com/eduardohoths)
 
 João Paulo [Github](https://github.com/jpaulopereiraaraujo)
 
